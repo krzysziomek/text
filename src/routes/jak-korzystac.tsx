@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Download, FolderOpen, Play, HelpCircle } from "lucide-react";
+import { HelpCircle, Sparkles, Settings, ExternalLink } from "lucide-react";
 
 export const Route = createFileRoute("/jak-korzystac")({
   head: () => ({
@@ -27,24 +27,6 @@ export const Route = createFileRoute("/jak-korzystac")({
   }),
   component: JakKorzystacPage,
 });
-
-const steps = [
-  {
-    icon: Download,
-    title: "1. Pobierz paczkę",
-    body: "Wejdź na stronę główną, wybierz kategorię (Overlay / Ramki Rud / Pozostałe), wybierz konkretny plik z listy i kliknij „Pobierz”. Plik .zip zostanie zapisany na Twoim dysku.",
-  },
-  {
-    icon: FolderOpen,
-    title: "2. Otwórz folder z paczkami zasobów",
-    body: "Uruchom Minecraft → Opcje → Paczki zasobów → kliknij „Otwórz folder paczek”. Otworzy się katalog resourcepacks. Przeciągnij tam pobrany plik .zip — nie rozpakowuj go!",
-  },
-  {
-    icon: Play,
-    title: "3. Włącz paczkę w grze",
-    body: "Wróć do okna Minecraft. Paczka pojawi się po lewej stronie. Najedź na nią i kliknij strzałkę, by przesunąć ją do aktywnych. Kliknij „Gotowe” — od teraz tekstury są aktywne.",
-  },
-];
 
 const faq = [
   {
@@ -73,53 +55,100 @@ function JakKorzystacPage() {
   return (
     <main className="container mx-auto px-4 py-12 max-w-4xl">
       <header className="mb-10 text-center">
-        <h1 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-primary mb-4">
-          Jak korzystać?
+        <h1 className="font-pixel font-bold text-2xl sm:text-3xl md:text-4xl text-primary mb-4">
+          Paczka Grafa
         </h1>
-        <p className="text-muted-foreground text-base sm:text-lg">
-          Instalacja Paczki Grafa w Minecraft — krok po kroku.
+        <p className="text-muted-foreground text-base sm:text-lg font-semibold">
+          Kompletny przewodnik po instalacji i użytkowaniu
         </p>
       </header>
 
-      <section aria-labelledby="kroki" className="mb-14">
-        <h2 id="kroki" className="sr-only">
-          Kroki instalacji
-        </h2>
-        <div className="grid gap-4 sm:gap-6">
-          {steps.map((s) => {
-            const Icon = s.icon;
-            return (
-              <Card
-                key={s.title}
-                className="border-border/60 bg-card/60 backdrop-blur transition-colors hover:border-primary/40"
+      <section aria-labelledby="instrukcja" className="mb-14">
+        <Card className="border-border/60 bg-card/60 backdrop-blur">
+          <CardHeader className="flex-row items-center gap-3 space-y-0">
+            <HelpCircle className="h-6 w-6 text-primary" />
+            <CardTitle id="instrukcja" className="text-xl font-bold">
+              Jak korzystać z Paczki Grafa?
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6 text-foreground/90 leading-relaxed font-medium">
+            <p>
+              Aby korzystać z paczki zasobów Grafa należy pobrać wybrane przez siebie paczki,
+              następnie przenieść je do folderu{" "}
+              <strong className="font-bold text-foreground">resourcepacks</strong>, do którego
+              dostęp możemy uzyskać klikając przycisk{" "}
+              <strong className="font-bold text-foreground">Otwórz folder z paczkami zasobów</strong>{" "}
+              zlokalizowany na dole ekranu w zakładce Paczki Zasobów w ustawieniach Minecrafta.
+            </p>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-lg border border-border/60 bg-background/40 p-4">
+                <div className="mb-2 flex items-center gap-2 font-bold text-foreground">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  Optifine:
+                </div>
+                <p className="text-sm text-muted-foreground font-medium">
+                  Do pełnego korzystania z paczki potrzebny nam będzie{" "}
+                  <a
+                    href="https://optifine.net/downloads"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="inline-flex items-center gap-1 font-bold text-primary hover:underline"
+                  >
+                    Optifine <ExternalLink className="h-3 w-3" />
+                  </a>
+                  .
+                </p>
+              </div>
+
+              <div className="rounded-lg border border-border/60 bg-background/40 p-4">
+                <div className="mb-2 flex items-center gap-2 font-bold text-foreground">
+                  <Settings className="h-4 w-4 text-primary" />
+                  Fabric:
+                </div>
+                <p className="text-sm text-muted-foreground font-medium">
+                  Możesz również używać paczki na silniku Fabric. Wymagany jest wtedy mod{" "}
+                  <a
+                    href="https://modrinth.com/mod/entity-texture-features-fabric"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="inline-flex items-center gap-1 font-bold text-primary hover:underline"
+                  >
+                    Entity Texture Features <ExternalLink className="h-3 w-3" />
+                  </a>
+                  .
+                </p>
+              </div>
+            </div>
+
+            <p className="text-sm italic text-muted-foreground">
+              Jeśli podczas instalacji Optifine wystąpi błąd, upewnij się że masz zainstalowaną{" "}
+              <a
+                href="https://www.java.com/pl/download/"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="font-bold text-primary hover:underline"
               >
-                <CardHeader className="flex-row items-center gap-4 space-y-0">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <CardTitle className="text-xl">{s.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="text-muted-foreground leading-relaxed">
-                  {s.body}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+                Javę
+              </a>
+              .
+            </p>
+          </CardContent>
+        </Card>
       </section>
 
       <section aria-labelledby="faq">
         <div className="flex items-center gap-3 mb-6">
           <HelpCircle className="h-6 w-6 text-primary" />
-          <h2 id="faq" className="font-pixel text-lg sm:text-xl">
+          <h2 id="faq" className="font-pixel font-bold text-lg sm:text-xl">
             Najczęstsze pytania
           </h2>
         </div>
         <Accordion type="single" collapsible className="rounded-lg border border-border/60 bg-card/40">
           {faq.map((item, i) => (
             <AccordionItem key={i} value={`item-${i}`} className="px-4">
-              <AccordionTrigger className="text-left text-base">{item.q}</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground leading-relaxed">
+              <AccordionTrigger className="text-left text-base font-bold">{item.q}</AccordionTrigger>
+              <AccordionContent className="text-foreground/85 leading-relaxed font-medium">
                 {item.a}
               </AccordionContent>
             </AccordionItem>
