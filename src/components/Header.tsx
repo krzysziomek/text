@@ -6,11 +6,17 @@ import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const navItems = [
+type NavItem = {
+  to: "/" | "/jak-korzystac" | "/rzeczy-grafa";
+  label: string;
+  exact?: boolean;
+};
+
+const navItems: NavItem[] = [
   { to: "/", label: "Strona główna", exact: true },
   { to: "/jak-korzystac", label: "Jak korzystać?" },
   { to: "/rzeczy-grafa", label: "Rzeczy Grafa" },
-] as const;
+];
 
 export function Header() {
   const [open, setOpen] = useState(false);
