@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RzeczyGrafaRouteImport } from './routes/rzeczy-grafa'
 import { Route as JakKorzystacRouteImport } from './routes/jak-korzystac'
 import { Route as IndexRouteImport } from './routes/index'
 
+const RzeczyGrafaRoute = RzeczyGrafaRouteImport.update({
+  id: '/rzeczy-grafa',
+  path: '/rzeczy-grafa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JakKorzystacRoute = JakKorzystacRouteImport.update({
   id: '/jak-korzystac',
   path: '/jak-korzystac',
@@ -26,31 +32,42 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/jak-korzystac': typeof JakKorzystacRoute
+  '/rzeczy-grafa': typeof RzeczyGrafaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/jak-korzystac': typeof JakKorzystacRoute
+  '/rzeczy-grafa': typeof RzeczyGrafaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/jak-korzystac': typeof JakKorzystacRoute
+  '/rzeczy-grafa': typeof RzeczyGrafaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/jak-korzystac'
+  fullPaths: '/' | '/jak-korzystac' | '/rzeczy-grafa'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/jak-korzystac'
-  id: '__root__' | '/' | '/jak-korzystac'
+  to: '/' | '/jak-korzystac' | '/rzeczy-grafa'
+  id: '__root__' | '/' | '/jak-korzystac' | '/rzeczy-grafa'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   JakKorzystacRoute: typeof JakKorzystacRoute
+  RzeczyGrafaRoute: typeof RzeczyGrafaRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/rzeczy-grafa': {
+      id: '/rzeczy-grafa'
+      path: '/rzeczy-grafa'
+      fullPath: '/rzeczy-grafa'
+      preLoaderRoute: typeof RzeczyGrafaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/jak-korzystac': {
       id: '/jak-korzystac'
       path: '/jak-korzystac'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   JakKorzystacRoute: JakKorzystacRoute,
+  RzeczyGrafaRoute: RzeczyGrafaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
