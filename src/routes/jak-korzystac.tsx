@@ -125,29 +125,6 @@ function faqJsonLd() {
   }));
 }
 
-const faq = [
-  {
-    q: "Która paczka jest dla mojej wersji Minecraft?",
-    a: "Wersja jest oznaczona w nazwie pliku (np. 1.21, 1.19, 1.16). Wybierz paczkę odpowiadającą wersji Twojej gry. Jeśli grasz na 1.21.x, weź najnowszą oznaczoną 1.21.",
-  },
-  {
-    q: "Paczka się nie pojawia w Minecraft — co robić?",
-    a: "Upewnij się, że plik .zip jest w folderze resourcepacks i NIE jest rozpakowany. Następnie zrestartuj Minecraft. Jeśli dalej nie widzi — sprawdź wersję paczki vs wersję gry.",
-  },
-  {
-    q: "Co to jest „Overlay”?",
-    a: "Overlay to dodatkowa warstwa nakładana na interfejs gry — np. ozdobne ramki ekwipunku, paska zdrowia, GUI. Można używać razem z innymi paczkami.",
-  },
-  {
-    q: "Co to są „Ramki do rud”?",
-    a: "Paczka, która podświetla rudy w jaskiniach kolorowymi ramkami. Bardzo ułatwia ich zauważanie podczas kopania.",
-  },
-  {
-    q: "Czy paczka działa z modami / Optifine?",
-    a: "Tak — to standardowy resource pack. Działa zarówno na vanilla, jak i z Optifine, Sodium, Iris i większością modów graficznych.",
-  },
-];
-
 function JakKorzystacPage() {
   return (
     <main className="container mx-auto px-4 py-12 max-w-4xl">
