@@ -153,6 +153,37 @@ const jsonLd = {
 // Wczytaj theme boot script (dark default + persist)
 const themeBoot = `(()=>{try{var t=localStorage.getItem('theme');var d=t?t==='dark':true;var r=document.documentElement;if(d){r.classList.add('dark');r.style.colorScheme='dark';}else{r.classList.remove('dark');r.style.colorScheme='light';}}catch(e){document.documentElement.classList.add('dark');}})();`;
 
+// Deploy verifier — sprawdza w konsoli, czy index.html i właściwy chunk JS się
+// załadowały. Jeśli po 4s root nadal jest pusty (lub entry nie dał się załadować),
+// rzuca widoczny komunikat błędu w konsoli i renderuje fallback w DOM.
+const expectedEntry = entryJs ? `${BASE_SLASH}assets/${entryJs}` : "";
+const deployVerifier = `(()=>{try{
+  var EXPECTED=${JSON.stringify(expectedEntry)};
+  var TAG='[paczka-grafa:deploy-check]';
+  var loaded=false, errored=false;
+  function findScript(){
+    var s=document.querySelectorAll('script[type="module"]');
+    for(var i=0;i<s.length;i++){ if(s[i].src && s[i].src.indexOf(EXPECTED)>=0) return s[i]; }
+    return null;
+  }
+  var entry=findScript();
+  if(!entry){ console.error(TAG,'BRAK tagu <script> dla entry chunk:',EXPECTED); }
+  else {
+    entry.addEventListener('load', function(){ loaded=true; console.info(TAG,'entry chunk OK:',EXPECTED); });
+    entry.addEventListener('error', function(e){ errored=true; console.error(TAG,'NIE udało się załadować entry chunk:',EXPECTED, e); });
+  }
+  setTimeout(function(){
+    var root=document.getElementById('root');
+    var hasApp=root && root.children && root.children.length>0 && !(root.children.length===1 && root.children[0].tagName==='NOSCRIPT');
+    if(!hasApp || errored){
+      console.error(TAG,'STRONA SIĘ NIE WYRENDEROWAŁA. entryLoaded=',loaded,'entryError=',errored,'expected=',EXPECTED);
+      if(root && !hasApp){
+        root.innerHTML='<div style="padding:32px;font-family:system-ui,sans-serif;max-width:560px;margin:40px auto;border:1px solid #c00;border-radius:8px;color:#c00;background:#fff5f5"><h1 style="margin:0 0 12px">Strona się nie załadowała</h1><p>Skrypt aplikacji ('+EXPECTED+') nie wystartował. Sprawdź konsolę (F12), zakładka Network — pewnie 404 na chunkach JS. Najczęściej oznacza to złe ustawienie BASE_URL w deployu (GitHub Pages).</p><p><a href="${BASE_SLASH}pliki/" style="color:#c00">Pobierz pliki bezpośrednio</a></p></div>';
+      }
+    } else { console.info(TAG,'OK — aplikacja wyrenderowała #root'); }
+  }, 4000);
+}catch(e){ console.error('[paczka-grafa:deploy-check] verifier crashed', e); }})();`;
+
 const cssLinks = cssFiles
   .map((f) => `    <link rel="stylesheet" crossorigin href="${BASE_SLASH}assets/${f}">`)
   .join("\n");
@@ -209,6 +240,7 @@ ${entryScript}
         <p>Pliki znajdziesz bezpośrednio w katalogu <a href="${BASE_SLASH}pliki/">/pliki/</a>.</p>
       </noscript>
     </div>
+    <script>${deployVerifier}</script>
   </body>
 </html>
 `;
