@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RzeczyGrafaRouteImport } from './routes/rzeczy-grafa'
 import { Route as JakKorzystacRouteImport } from './routes/jak-korzystac'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 
 const RzeczyGrafaRoute = RzeczyGrafaRouteImport.update({
@@ -23,6 +24,11 @@ const JakKorzystacRoute = JakKorzystacRouteImport.update({
   path: '/jak-korzystac',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/jak-korzystac': typeof JakKorzystacRoute
   '/rzeczy-grafa': typeof RzeczyGrafaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/jak-korzystac': typeof JakKorzystacRoute
   '/rzeczy-grafa': typeof RzeczyGrafaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$': typeof SplatRoute
   '/jak-korzystac': typeof JakKorzystacRoute
   '/rzeczy-grafa': typeof RzeczyGrafaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/jak-korzystac' | '/rzeczy-grafa'
+  fullPaths: '/' | '/$' | '/jak-korzystac' | '/rzeczy-grafa'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/jak-korzystac' | '/rzeczy-grafa'
-  id: '__root__' | '/' | '/jak-korzystac' | '/rzeczy-grafa'
+  to: '/' | '/$' | '/jak-korzystac' | '/rzeczy-grafa'
+  id: '__root__' | '/' | '/$' | '/jak-korzystac' | '/rzeczy-grafa'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SplatRoute: typeof SplatRoute
   JakKorzystacRoute: typeof JakKorzystacRoute
   RzeczyGrafaRoute: typeof RzeczyGrafaRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JakKorzystacRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SplatRoute: SplatRoute,
   JakKorzystacRoute: JakKorzystacRoute,
   RzeczyGrafaRoute: RzeczyGrafaRoute,
 }
