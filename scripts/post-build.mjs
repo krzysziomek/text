@@ -1,7 +1,15 @@
 #!/usr/bin/env node
 // Post-build: generuje SEO-friendly index.html (SPA shell), sitemap.xml,
 // robots.txt, 404.html (SPA fallback) i .nojekyll dla GitHub Pages.
-import { readFileSync, writeFileSync, copyFileSync, existsSync, mkdirSync, readdirSync } from "node:fs";
+import {
+  readFileSync,
+  writeFileSync,
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  statSync,
+} from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
