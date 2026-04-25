@@ -32,7 +32,7 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           # TanStack Start z SPA mode emituje do .output/public
-          path: .output/public
+          path: dist/public
 
   deploy:
     needs: build
